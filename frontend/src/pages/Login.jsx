@@ -31,6 +31,7 @@ export function Login({ setToken }) {
                 <input
                     placeholder="Usuário"
                     type='text'
+                    className="input input-primary w-full"
                     value={usuario}
                     onChange={(e) => setUsuario(e.target.value)}
                     isRequired />
