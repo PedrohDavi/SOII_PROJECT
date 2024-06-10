@@ -23,10 +23,10 @@ async function createDatabase() {
 
 async function createTables() {
     const db = mariadb.createPool({
-        host: "localhost",
-        user: "root",
-        password: "",
-        database: "so2",
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'so2',
         port: 3306,
         connectionLimit: 5
     });
@@ -35,7 +35,7 @@ async function createTables() {
     try {
         conn = await db.getConnection();
         await conn.query("CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, nome VARCHAR(255) NOT NULL, usuario VARCHAR(255) NOT NULL, senha VARCHAR(255) NOT NULL)");
-        await conn.query("CREATE TABLE IF NOT EXISTS reserva (id INT AUTO_INCREMENT PRIMARY KEY, nome_sala VARCHAR(250), local_sala VARCHAR(250), data_uso DATE, hora_inicio_uso TIME, hora_final_uso TIME, responsavel VARCHAR(250), motivo_uso VARCHAR(450), info_gerais VARCHAR(450), convidados VARCHAR(250), usuario_id INT NOT NULL, FOREIGN KEY (usuario_id) REFERENCES usuario(id))");
+        await conn.query("CREATE TABLE IF NOT EXISTS reserva (id INT AUTO_INCREMENT PRIMARY KEY, nome_sala VARCHAR(250), local_sala VARCHAR(250), data_uso DATE, hora_inicio_uso TIME, hora_final_uso TIME, responsavel VARCHAR(250), motivo_uso VARCHAR(450), info_gerais VARCHAR(450), convidados VARCHAR(250), usuario_id INT NOT NULL, FOREIGN KEY (usuario_id) REFERENCES users(id))");
         console.log("Tabelas criadas");
     } catch (err) {
         console.error("Erro ao criar/verificar tabelas:", err);
@@ -46,6 +46,9 @@ async function createTables() {
 
 async function createConnection() {
     await createDatabase();
+
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
     await createTables();
 
     console.log("Conexão com o banco de dados estabelecida com sucesso.");
