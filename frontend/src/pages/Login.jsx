@@ -37,7 +37,7 @@ export function Login({ setToken }) {
                     isRequired />
                 <input
                     name="senha"
-                    type="senha"
+                    type="password"
                     placeholder="Senha"
                     className="input input-primary w-full"
                     onChange={(e) => setSenha(e.target.value)}
