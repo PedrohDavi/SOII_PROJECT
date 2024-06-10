@@ -10,7 +10,7 @@ export function Login({ setToken }) {
 
         try {
 
-            const response = await axios.post('http://localhost:81/login', { usuario, senha });
+            const response = await axios.post('http://localhost:80/login', { usuario, senha });
 
             if (response.status == 200) {
                 setToken(response.data.token)
