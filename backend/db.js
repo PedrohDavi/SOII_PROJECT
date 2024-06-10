@@ -1,11 +1,11 @@
 import mariadb from 'mariadb';
 
 export const pool = mariadb.createPool({
-    host: '18.221.103.160',
-    user: 'root',
-    password: 'senha123',
+    host: 'localhost',
+    user: 'admin',
+    password: '',
     database: "so2",
-    port: 3308,
+    port: 3306,
     connectionLimit: 20,
     acquireTimeout: 30000
 });
@@ -24,11 +24,11 @@ async function createDatabase() {
 
 async function createTables() {
     const db = mariadb.createPool({
-        host: "18.221.103.160",
+        host: "localhost",
         user: "admin",
-        password: "senha123",
+        password: "",
         database: "so2",
-        port: 22,
+        port: 3306,
         connectionLimit: 5
     });
 
