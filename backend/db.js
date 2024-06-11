@@ -4,10 +4,10 @@ export const pool = mariadb.createPool({
     host: 'localhost',
     user: 'pedro',
     password: 'senha123',
-    database: "so2",
+    database: 'so2',
     port: 3306,
-    connectionLimit: 20,
-    acquireTimeout: 30000
+    connectionLimit: 50,
+    acquireTimeout: 60000
 });
 
 async function createDatabase() {
