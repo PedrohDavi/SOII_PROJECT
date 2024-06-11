@@ -33,12 +33,12 @@ export function Home({ token }) {
 
     return (
         <>
-            <Flex pl='7rem' mt='2rem' w='30%'>
+            <Flex pl='7rem' mt='2rem' w='90%'>
                 <Input
-                    bg='white'
+                    className="bg-slate-300"
                     pr='4.5rem'
                     type="text"
-                    placeholder='Filtrar...'
+                    placeholder='Pesquisar...'
                     color='black'
                     value={filtroNomeSala}
                     onChange={handleFiltroNomeSalaChange}

@@ -55,10 +55,11 @@ export function Formulario({ token }) {
             justifyContent='center'
             alignItems='center'
             w='100%'
-            h='100vh'>
+            h='120vh'>
             <Flex
-                bg='#07012C'
-                w='60rem'
+                className='bg-slate-500'
+                color='white'
+                w='110rem'
                 borderRadius='2rem'
                 boxShadow='4px 5px 4px 0px rgba(0, 0, 0, 0.50)'
                 direction='column'
@@ -98,7 +99,13 @@ export function Formulario({ token }) {
                                 <Input ref={local_sala} type='text' />
                             </FormControl>
                         </Box>
-
+                        <Box
+                            mb='2rem'>
+                            <FormControl isRequired>
+                                <FormLabel>Convidados</FormLabel>
+                                <Input ref={convidados} type='text' />
+                            </FormControl>
+                        </Box>
                         <Flex
                             gap='2rem'>
                             <Box
@@ -126,7 +133,7 @@ export function Formulario({ token }) {
 
                         <Box
                             mb='2rem'>
-                            <FormControl isRequired>
+                            <FormControl>
                                 <FormLabel>Motivo do uso</FormLabel>
                                 <Textarea ref={motivo_uso} />
                             </FormControl>
@@ -134,17 +141,9 @@ export function Formulario({ token }) {
 
                         <Box
                             mb='2rem'>
-                            <FormControl isRequired>
+                            <FormControl>
                                 <FormLabel>Informações gerais</FormLabel>
                                 <Textarea ref={info_gerais} />
-                            </FormControl>
-                        </Box>
-
-                        <Box
-                            mb='2rem'>
-                            <FormControl isRequired>
-                                <FormLabel>Convidados</FormLabel>
-                                <Input ref={convidados} type='text' />
                             </FormControl>
                         </Box>
 
@@ -153,9 +152,9 @@ export function Formulario({ token }) {
                             alignItems='center'>
                             <Button
                                 mt={4}
-                                colorScheme='green'
+                                colorScheme='blue'
                                 type='submit'>
-                                Registrar
+                                Cadastrar
                             </Button>
                         </Flex>
                     </form>

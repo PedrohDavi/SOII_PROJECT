@@ -6,13 +6,15 @@ export function Navbar({ handleLogout }) {
 
     return (
         <Flex
-            bg='#07012C'
+            className="bg-slate-600"
+            color='white'
             w='100%'
             h='6rem'
             justifyContent='space-between'
             alignItems='center'
             px='8rem'
-            boxShadow='0px 4px 4px 0px rgba(0, 0, 0, 0.25)'>
+            boxShadow='0px 4px 4px 0px rgba(0, 0, 0, 0.25)'
+            >
             <Box>
                 <Img src={logo} alt="logo" />
             </Box>
