@@ -40,6 +40,7 @@ export function Login({ setToken }) {
                     type="password"
                     placeholder="Senha"
                     className="input input-primary w-full"
+                    value={senha}
                     onChange={(e) => setSenha(e.target.value)}
                     isRequired />
                 <button className="btn btn-primary w-full" type="submit">Login</button>
