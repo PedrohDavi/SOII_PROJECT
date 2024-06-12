@@ -6,8 +6,7 @@ const dbConfig ={
     password: 'senha123',
     database: 'so2',
     port: 3306,
-    connectionLimit: 5,
-    acquireTimeout: 60000
+    connectionLimit: 5
 };
 
 let pool;
