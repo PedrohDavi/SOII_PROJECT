@@ -2,8 +2,8 @@ import mariadb from 'mariadb';
 
 const dbConfig ={
     host: 'localhost',
-    user: 'pedro',
-    password: 'senha123',
+    user: 'root',
+    password: '',
     database: 'so2',
     port: 3306,
     connectionLimit: 5
