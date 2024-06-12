@@ -6,7 +6,7 @@ const dbConfig ={
     password: '',
     database: 'so2',
     port: 3306,
-    connectionLimit: 5
+    connectionLimit: 50
 };
 
 let pool;
