@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { createConnection } from '../db.js';
+import { pool } from '../db.js';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -16,10 +16,7 @@ export const getReservas = async (req, res) => {
         const q = "SELECT * FROM reserva WHERE usuario_id = ?";
         const id = decoded.id;
 
-        let conn;
         try {
-            const db = await createConnection();
-            const conn = await db.getConnection()
             const data = await conn.query(q, [id]);
             return res.status(200).json(data);
         } catch (err) {
@@ -40,6 +37,8 @@ export const addReserva = async (req, res) => {
 
         const q = "INSERT INTO reserva(nome_sala, local_sala, data_uso, hora_inicio_uso, hora_final_uso, responsavel, motivo_uso, info_gerais, convidados, usuario_id) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
+        let conn = await pool.getConnection()
+
         const values = [
             req.body.nome_sala,
             req.body.local_sala,
@@ -53,10 +52,7 @@ export const addReserva = async (req, res) => {
             decoded.id
         ];
 
-        let conn;
         try {
-            const db = await createConnection(); // Chama a função createConnection para estabelecer a conexão com o banco de dados
-            const conn = await db.getConnection()
             await conn.query(q, values);
             return res.status(200).json("Reserva criada com sucesso.");
         } catch (err) {

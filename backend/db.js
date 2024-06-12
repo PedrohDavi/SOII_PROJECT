@@ -1,65 +1,76 @@
 import mariadb from 'mariadb';
 
-export const pool = mariadb.createPool({
+const dbConfig ={
     host: 'localhost',
     user: 'pedro',
     password: 'senha123',
     database: 'so2',
     port: 3306,
-    connectionLimit: 50,
+    connectionLimit: 5,
     acquireTimeout: 60000
-});
+};
 
-async function createDatabase() {
-    let conn;
+let pool;
+
+const createDatabaseQuery = async () => {
     try {
-        conn = await pool.getConnection();
-        await conn.query("CREATE DATABASE IF NOT EXISTS so2;");
+        const conn = await pool.getConnection();
+        await conn.query(`CREATE DATABASE IF NOT EXISTS so2;`);
+        console.log("Banco de dados acessado/criado com sucesso");
     } catch (err) {
-        console.error("Erro ao criar/verificar banco de dados:", err);
-    } finally {
-        if (conn) conn.end();
+        console.error("Erro ao acessar/criar banco de dados:", err);
     }
-}
+};
 
-async function createTables() {
-    const db = mariadb.createPool({
-        host: 'localhost',
-        user: 'pedro',
-        password: 'senha123',
-        database: 'so2',
-        port: 3306,
-        connectionLimit: 5
+    const createTablesQuery = async () => {
+        const createUserTableQuery = `
+            CREATE TABLE IF NOT EXISTS users (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                nome VARCHAR(255),
+                usuario VARCHAR(255),
+                senha VARCHAR(30)
+            );
+        `;
+        const createReservaTableQuery = `
+        CREATE TABLE IF NOT EXISTS reserva (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            nome_sala VARCHAR(250), 
+            local_sala VARCHAR(250), 
+            data_uso DATE, 
+            hora_inicio_uso TIME, 
+            hora_final_uso TIME, 
+            responsavel VARCHAR(250),
+            motivo_uso VARCHAR(450),
+            info_gerais VARCHAR(450), 
+            convidados VARCHAR(250), 
+            usuario_id INT NOT NULL,
+            FOREIGN KEY (usuario_id) REFERENCES users(id)
+        );`;
+
+    try {
+        const conn = await pool.getConnection();
+        await conn.query(createUserTableQuery);
+        await conn.query(createReservaTableQuery);
+        console.log("Tabelas acessadas/criadas com sucesso");
+    } catch (err) {
+        console.error("Erro ao criar as tabelas:", err);
+    }
+};
+
+const initializeDatabase = async () => {
+    pool = mariadb.createPool({
+        ...dbConfig,
+        database: 'so2'
     });
 
-    let conn;
-    try {
-        conn = await db.getConnection();
-        await conn.query("CREATE TABLE IF NOT EXISTS users (id INT AUTO_INCREMENT PRIMARY KEY, nome VARCHAR(255) NOT NULL, usuario VARCHAR(255) NOT NULL, senha VARCHAR(255) NOT NULL);");
-        await conn.query("CREATE TABLE IF NOT EXISTS reserva (id INT AUTO_INCREMENT PRIMARY KEY, nome_sala VARCHAR(250), local_sala VARCHAR(250), data_uso DATE, hora_inicio_uso TIME, hora_final_uso TIME, responsavel VARCHAR(250), motivo_uso VARCHAR(450), info_gerais VARCHAR(450), convidados VARCHAR(250), usuario_id INT NOT NULL, FOREIGN KEY (usuario_id) REFERENCES users(id));");
-        console.log("Tabelas criadas");
-    } catch (err) {
-        console.error("Erro ao criar/verificar tabelas:", err);
-    } finally {
-        if (conn) conn.end();
-    }
-}
+    await createDatabaseQuery();
+    await createTablesQuery();
+};
 
-async function createConnection() {
-    await createDatabase();
+const init = async () => {
+    await initializeDatabase();
+};
 
-    await new Promise(resolve => setTimeout(resolve, 2000));
+init().catch(err => console.error("Erro ao inicializar o banco de dados:", err));
 
-    await createTables();
-
-    console.log("Conexão com o banco de dados estabelecida com sucesso.");
-
-    return pool; // Retorna o objeto de conexão
-}
-
-
-createConnection().catch(err => {
-    console.error("Erro ao conectar ao banco de dados:", err);
-});
-
-export { createConnection }; // Exporta a função createConnection para uso externo
+export { pool };

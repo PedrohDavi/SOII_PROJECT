@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { createConnection } from "../db.js";
+import { pool } from "../db.js";
 import jwt from "jsonwebtoken";
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -10,10 +10,8 @@ export const addLogin = async (req, res) => {
     const { usuario, senha } = req.body;
     const q = "SELECT * FROM users WHERE usuario = ?";
 
-    let conn;
+    let conn = await pool.getConnection();
     try {
-        const db = await createConnection();
-        const conn = await db.getConnection()
         const result = await conn.query(q, [usuario]);
 
         if (result.length === 0) {
@@ -33,6 +31,6 @@ export const addLogin = async (req, res) => {
         console.error("Erro no banco de dados:", err);
         return res.status(500).json({ error: "Erro no servidor!" });
     } finally {
-        if (conn) conn.end();
+        if (conn) conn.release();
     }
 };
