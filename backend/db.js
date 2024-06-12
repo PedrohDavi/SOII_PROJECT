@@ -18,6 +18,8 @@ const createDatabaseQuery = async () => {
         console.log("Banco de dados acessado/criado com sucesso");
     } catch (err) {
         console.error("Erro ao acessar/criar banco de dados:", err);
+    } finally {
+        if (conn) conn.release();
     }
 };
 
@@ -53,6 +55,8 @@ const createDatabaseQuery = async () => {
         console.log("Tabelas acessadas/criadas com sucesso");
     } catch (err) {
         console.error("Erro ao criar as tabelas:", err);
+    }finally {
+        if (conn) conn.release();
     }
 };
 
