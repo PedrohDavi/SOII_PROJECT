@@ -30,7 +30,7 @@ export function Formulario({ token }) {
         };
         
         try {
-            const req = await axios.post("https://localhost:8800/addReserva", dadosReserva, {
+            const req = await axios.post("http://localhost:8800/addReserva", dadosReserva, {
                 headers: { Authorization: token },
             });
 

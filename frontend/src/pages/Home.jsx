@@ -14,7 +14,7 @@ export function Home({ token }) {
 
     const fetchReservas = async () => {
         try {
-            const req = await axios.get('https://localhost:8800/reservas',{
+            const req = await axios.get('http://localhost:8800/reservas',{
                 headers: { Authorization: token },
             });
 
