@@ -24,7 +24,7 @@ export default defineConfig({
         target: 'http://localhost:8800',
         changeOrigin: true
       },
-      '/addReservas': {
+      '/addReserva': {
         target: 'http://localhost:8800',
         changeOrigin: true
       },
