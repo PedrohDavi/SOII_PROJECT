@@ -3,7 +3,7 @@ import mysql from 'mysql2/promise';
 const dbConfig ={
     host: 'localhost',
     user: 'root',
-    password: 'senha123',
+    password: 'R&m0V$!#s7Np@',
     port: 3306,
     database: 'so2',
     connectionLimit: 5
