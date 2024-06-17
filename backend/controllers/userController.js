@@ -64,7 +64,7 @@ export const getUserById = async (req, res) => {
 const SALT_ROUNDS = 10;
 export const addUser = async (req, res) => {
     const { nome, usuario, senha } = req.body;
-    
+    let conn;
 
     try {
         const hashedSenha = await bcrypt.hash(senha,SALT_ROUNDS)
