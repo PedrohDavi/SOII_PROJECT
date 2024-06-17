@@ -5,7 +5,6 @@ import reservaRoutes from "./routes/reservas.js";
 import loginRoutes from "./routes/login.js";
 import bodyParser from "body-parser";
 import 'dotenv/config';
-import cors from 'cors';
 
 
 const app = express();
