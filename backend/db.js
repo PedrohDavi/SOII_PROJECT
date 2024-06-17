@@ -1,20 +1,32 @@
-import mariadb from 'mariadb';
+import mysql from 'mysql2/promise';
 
 const dbConfig ={
     host: 'localhost',
     user: 'root',
-    password: '',
-    database: 'so2',
+    password: 'senha123',
     port: 3306,
-    connectionLimit: 50
+    database: 'so2',
+    connectionLimit: 5
 };
 
 let pool;
 
-const createDatabaseQuery = async () => {
+
+const testConnection = async () => {
     try {
         const conn = await pool.getConnection();
-        await conn.query(`CREATE DATABASE IF NOT EXISTS so2;`);
+        console.log("Conexão obtida com sucesso");
+        conn.release();
+    } catch (err) {
+        console.error("Erro ao obter conexão:", err);
+    }
+};
+
+const createDatabaseQuery = async () => {
+    let conn;
+    try {
+        const conn = await pool.getConnection();
+        await conn.query(`CREATE DATABASE IF NOT EXISTS so2`);
         console.log("Banco de dados acessado/criado com sucesso");
     } catch (err) {
         console.error("Erro ao acessar/criar banco de dados:", err);
@@ -24,6 +36,7 @@ const createDatabaseQuery = async () => {
 };
 
     const createTablesQuery = async () => {
+        let conn;
         const createUserTableQuery = `
             CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -61,11 +74,12 @@ const createDatabaseQuery = async () => {
 };
 
 const initializeDatabase = async () => {
-    pool = mariadb.createPool({
+    pool = mysql.createPool({
         ...dbConfig,
-        database: 'so2'
+        acquireTimeout: 20000
     });
 
+    await testConnection();
     await createDatabaseQuery();
     await createTablesQuery();
 };

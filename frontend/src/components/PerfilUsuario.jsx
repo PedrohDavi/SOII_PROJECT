@@ -12,7 +12,7 @@ export function PerfilUsuario({ nomeUsuario }) {
         const nome = nomeUsuario?.split('');
 
         if (nome && nome.length > 0) {
-            const iniciaisNome = nome[0].toLowerCase() + nome[1].toLowerCase();
+            const iniciaisNome = nome[0].toUpperCase() + nome[1].toLowerCase();
             setIniciais(iniciaisNome);
         } else {
             setIniciais('');
@@ -26,7 +26,7 @@ export function PerfilUsuario({ nomeUsuario }) {
             borderRadius='2rem'
             w='4rem'
             h='4rem'
-            bg='blue'>
+            bg='brown'>
             <Heading color='white'>{iniciais}</Heading>
         </Flex>
     );

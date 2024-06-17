@@ -1,6 +1,35 @@
 import bcrypt from "bcrypt";
 import { pool } from "../db.js";
 
+const saltRounds = 10;
+
+const hashPassword = async (password) => {
+    try {
+        const salt = await bcrypt.genSalt(saltRounds);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        return hashedPassword;
+    } catch (err) {
+        console.error('Erro ao hashear a senha:', err);
+        throw err;
+    }
+};
+
+// Exemplo de uso ao criar um novo usuário
+const createUser = async (usuario, senha) => {
+    const hashedSenha = await hashPassword(senha);
+    const q = "INSERT INTO users (usuario, senha) VALUES (?, ?)";
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        await conn.query(q, [usuario, hashedSenha]);
+        console.log('Usuário criado com sucesso');
+    } catch (err) {
+        console.error('Erro ao criar usuário:', err);
+    } finally {
+        if (conn) conn.release();
+    }
+};
+
 export const getUsers = async (req, res) => {
     const q = "SELECT * FROM users";
     let conn = await pool.getConnection();
@@ -30,14 +59,18 @@ export const getUserById = async (req, res) => {
     }
 };
 
+const SALT_ROUNDS = 10;
 export const addUser = async (req, res) => {
     const { nome, usuario, senha } = req.body;
-    const q = "INSERT INTO users(`nome`, `senha`, `usuario`) VALUES (?, ?, ?)";
-    const conn = await pool.getConnection()
+    
 
     try {
-        const hash = await bcrypt.hash(senha, 10);
-        await conn.query(q, [nome, hash, usuario]);
+        const hashedSenha = await bcrypt.hash(senha,SALT_ROUNDS)
+
+        const q = "INSERT INTO users(`nome`, `usuario`, `senha`) VALUES (?, ?, ?)";
+        const conn = await pool.getConnection()
+        await conn.query(q, [nome, usuario, hashedSenha]);
+        conn.release();
         res.status(201).send('Usuário criado com sucesso!');
     } catch (err) {
         console.error("Erro no banco de dados:", err);
@@ -46,3 +79,17 @@ export const addUser = async (req, res) => {
         if(conn) conn.release();
     }
 };
+
+
+// Script para hashear 'senha123'
+const senha = 'senha123'; // Senha em texto plano
+
+bcrypt.genSalt(saltRounds, function(err, salt) {
+    bcrypt.hash(senha, salt, function(err, hash) {
+        if (err) {
+            console.error('Erro ao hashear a senha:', err);
+        } else {
+            console.log('Senha hasheada:', hash);
+        }
+    });
+});

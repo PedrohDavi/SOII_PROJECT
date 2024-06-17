@@ -18,7 +18,7 @@ export function Login({ setToken }) {
                 alert('Login falhou!');
             }
         } catch (error) {
-            console.error('Erro na rota!');
+            alert('Credenciais inválidas');
         }
     };
 

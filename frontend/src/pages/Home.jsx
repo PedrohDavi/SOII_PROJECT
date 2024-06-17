@@ -21,8 +21,9 @@ export function Home({ token }) {
             const reservas = req.data;
             reservas.sort((a, b) => new Date(a.data_uso) - new Date(b.data_uso));
             setReservas(reservas);
+            console.log("Reservas:", reservas);
         } catch (error) {
-            console.log("erro");
+            console.log("Erro ao buscar reservas:", error);
 
         }
     };
@@ -46,11 +47,20 @@ export function Home({ token }) {
             </Flex>
 
             <Flex wrap='wrap' px='6rem' mt='2rem'>
-                {reservas
-                    .filter(reserva => reserva.nome_sala.toLowerCase().includes(filtroNomeSala.toLowerCase()))
-                    .map((reserva, index) => (
-                        <CardReserva key={index} reserva={reserva} />
-                    ))}
+                {reservas.length > 0 ? (
+                    reservas
+                    .filter(reservas => {
+                        if (typeof reservas.nome_sala === 'string' && typeof filtroNomeSala === 'string') {
+                            return reservas.nome_sala.toLowerCase().includes(filtroNomeSala.toLowerCase());
+                        }
+                        return false; // ou outra ação adequada se algum deles não for uma string válida
+                    })
+                    .map((reservas, index) => (
+                        <CardReserva key={index} reservas={reservas} />
+                    ))
+                    ) : (
+                        <p>Nenhuma reserva encontrada</p>
+                    )}
             </Flex>
         </>
     );
