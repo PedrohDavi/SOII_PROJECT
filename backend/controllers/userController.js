@@ -82,7 +82,6 @@ export const addUser = async (req, res) => {
     }
 };
 
-createUser('Pedro Davi', 'pedro2@fatec.com', 'senha123');
 
 
 
