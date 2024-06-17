@@ -15,13 +15,13 @@ const hashPassword = async (password) => {
 };
 
 // Exemplo de uso ao criar um novo usuário
-const createUser = async (usuario, senha) => {
+const createUser = async (nome, usuario, senha) => {
     const hashedSenha = await hashPassword(senha);
-    const q = "INSERT INTO users (usuario, senha) VALUES (?, ?)";
+    const q = "INSERT INTO users (`nome`, `usuario`, `senha`) VALUES (?, ?, ?)";
     let conn;
     try {
         conn = await pool.getConnection();
-        await conn.query(q, [usuario, hashedSenha]);
+        await conn.query(q, [nome, usuario, hashedSenha]);
         console.log('Usuário criado com sucesso');
     } catch (err) {
         console.error('Erro ao criar usuário:', err);
@@ -29,6 +29,8 @@ const createUser = async (usuario, senha) => {
         if (conn) conn.release();
     }
 };
+
+
 
 export const getUsers = async (req, res) => {
     const q = "SELECT * FROM users";
@@ -80,16 +82,19 @@ export const addUser = async (req, res) => {
     }
 };
 
+addUser('Pedro Davi', 'pedro2@fatec.com', 'senha123');
+
+
 
 // Script para hashear 'senha123'
-const senha = 'senha123'; // Senha em texto plano
+//const senha = 'senha123'; // Senha em texto plano
 
-bcrypt.genSalt(saltRounds, function(err, salt) {
-    bcrypt.hash(senha, salt, function(err, hash) {
-        if (err) {
-            console.error('Erro ao hashear a senha:', err);
-        } else {
-            console.log('Senha hasheada:', hash);
-        }
-    });
-});
+// bcrypt.genSalt(saltRounds, function(err, salt) {
+   // bcrypt.hash(senha, salt, function(err, hash) {
+     //   if (err) {
+       //     console.error('Erro ao hashear a senha:', err);
+        // } else {
+          //  console.log('Senha hasheada:', hash);
+        //}
+   // });
+// });
