@@ -12,12 +12,14 @@ export function Login({ setToken }) {
 
             const response = await axios.post('http://localhost:8800/login', { usuario, senha });
 
-            if (response.status == 200) {
-                setToken(response.data.token)
+            if (response.status === 200) {
+                setToken(response.data.token);
+                console.log('Login bem-sucedido');
             } else {
                 alert('Login falhou!');
             }
         } catch (error) {
+            console.error('Erro ao fazer login:', error);
             alert('Credenciais inválidas');
         }
     };
@@ -34,7 +36,7 @@ export function Login({ setToken }) {
                     className="input input-primary w-full"
                     value={usuario}
                     onChange={(e) => setUsuario(e.target.value)}
-                    isRequired />
+                    isrequired />
                 <input
                     name="senha"
                     type="password"
@@ -42,7 +44,7 @@ export function Login({ setToken }) {
                     className="input input-primary w-full"
                     value={senha}
                     onChange={(e) => setSenha(e.target.value)}
-                    isRequired />
+                    isrequired />
                 <button className="btn btn-primary w-full" type="submit">Login</button>
             </form>
             </div>
