@@ -6,6 +6,7 @@ import loginRoutes from "./routes/login.js";
 import bodyParser from "body-parser";
 import 'dotenv/config';
 
+const cors = require('cors');
 
 const app = express();
 
