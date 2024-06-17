@@ -5,7 +5,6 @@ const dbConfig ={
     user: 'root',
     password: 'senha123',
     port: 3306,
-    database: 'so2',
     connectionLimit: 5
 };
 
