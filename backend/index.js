@@ -17,4 +17,6 @@ app.use("/", userRoutes);
 app.use("/", reservaRoutes);
 app.use("/", loginRoutes);
 
-app.listen(8800)
+app.listen(8800,() =>{
+    console.log("Servidor iniciado na porta 8800");
+})
